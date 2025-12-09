@@ -48,6 +48,7 @@ class N2b {
             return N2b(x_ekseni + diger_nesne.x_ekseni, y_ekseni + diger_nesne.y_ekseni);
 
         }
+
 };
 
 
@@ -86,7 +87,7 @@ class Geo2D {
 
         //kurucu fonksiyon ile ağırlık merkezinin atanması
         Geo2D(double x_konumu = 0, double y_konumu = 0) :
-            agirlik_merkezi(x_konumu, y_konumu) { }
+        agirlik_merkezi(x_konumu, y_konumu) { }
         
 };
 
@@ -143,6 +144,7 @@ class Cember : public Geo2D {
         // Kurucu fonksiyon ile yarıçapın ve ağırlık merkezinin atanması
         Cember(double yaricap_uzunluk, double x_konumu = 0, double y_konumu = 0) :
         Geo2D(x_konumu, y_konumu), yaricap(yaricap_uzunluk) { }
+
 };
 
 // Küre özelliklerini belirleme sınıfı
@@ -201,11 +203,11 @@ class KoordinatDonustur {
         // 2 boyutlu kartezyen koordinatları polar koordinatlara dönüştürme fonksiyonu
         static polar_2b_dizi K2btoK2bpolar(N2b tutulacak_deger) {
 
-
              polar_2b_dizi polar_dizi;
              polar_dizi.mesafe = sqrt(tutulacak_deger.x_ekseni * tutulacak_deger.x_ekseni + tutulacak_deger.y_ekseni * tutulacak_deger.y_ekseni);
              polar_dizi.aci = atan2(tutulacak_deger.y_ekseni, tutulacak_deger.x_ekseni);
              return polar_dizi;
+
         }
 
         // 2 boyutlu polar koordinatları kartezyen koordinatlara dönüştürme fonksiyonu
@@ -317,6 +319,7 @@ public:
 
     //2 silindirin çarpışmasının kontrol edilmesi
     static bool silindirlerCarpisma(Silindir s1, Silindir s2) {
+
         // 1. ADIM: Çember Çarpışması Kontrolü (X ve Y düzlemi)
         double dx = s1.agirlik_merkezi.x_ekseni - s2.agirlik_merkezi.x_ekseni;
         double dy = s1.agirlik_merkezi.y_ekseni - s2.agirlik_merkezi.y_ekseni;
@@ -339,6 +342,7 @@ public:
     }
 
     static bool kareDikdortgenCarpisma(Kare k, Dikdortgen d) {
+
         // Kareyi de bir dikdörtgen gibi düşünüyoruz
         bool cakisma_x = abs(k.agirlik_merkezi.x_ekseni - d.agirlik_merkezi.x_ekseni) < (k.kenar / 2 + d.uzun_kenar / 2);
         bool cakisma_y = abs(k.agirlik_merkezi.y_ekseni - d.agirlik_merkezi.y_ekseni) < (k.kenar / 2 + d.kisa_kenar / 2);
@@ -389,6 +393,7 @@ public:
         double mesafeY = farkY - enYakinY;
 
         return (mesafeX * mesafeX + mesafeY * mesafeY) < (c.yaricap * c.yaricap);
+
     }
 
     // küre - silindir çarpışması
@@ -414,16 +419,21 @@ public:
 
         // Eğer küre merkezi, silindirin yarıçapı içindeyse (yani silindirin içindeyse veya üstündeyse)
         if (mesafeXY < s.yaricap) {
+
             // En yakın nokta, kürenin kendi X,Y koordinatlarıdır (İçeride olduğu için)
             enYakinX = k.agirlik_merkezi.x_ekseni;
             enYakinY = k.agirlik_merkezi.y_ekseni;
+
         }
+
         else {
+
             // Eğer küre dışarıdaysa, en yakın nokta silindirin dış kabuğudur (çemberin kenarı).
             // Benzer üçgen mantığıyla veya birim vektörle o noktayı buluyoruz:
             // (fark / mesafe) bize yönü verir, bunu yarıçapla çarparız.
             enYakinX = s.agirlik_merkezi.x_ekseni + (farkX / mesafeXY) * s.yaricap;
             enYakinY = s.agirlik_merkezi.y_ekseni + (farkY / mesafeXY) * s.yaricap;
+
         }
 
         // Bulduğumuz "En Yakın Nokta" (enYakinX, enYakinY, enYakinZ) ile 
@@ -438,8 +448,8 @@ public:
 
         // Bu mesafe, kürenin yarıçapından küçükse (veya eşitse) çarpışma vardır.
         return mesafeKare < (k.yaricap * k.yaricap);
-    }
 
+    }
 
 };
 
@@ -511,6 +521,7 @@ void bilgiYazdir(string ad, Kure k) {
     cout << "x=" << k.agirlik_merkezi.x_ekseni << ", y=" << k.agirlik_merkezi.y_ekseni << ", z=" << k.agirlik_merkezi.z_ekseni;
     cout << " | Yarıçap=" << k.yaricap;
     cout << " | (Silindirik: r=" << silindirik.mesafe << ", açı=" << derece << " drc, z=" << silindirik.z_yukseklik << ")" << endl;
+
 }
 
 // Silindir için bilgi yazdırma 
@@ -525,6 +536,7 @@ void bilgiYazdir(string ad, Silindir s) {
     cout << "x=" << s.agirlik_merkezi.x_ekseni << ", y=" << s.agirlik_merkezi.y_ekseni << ", z=" << s.agirlik_merkezi.z_ekseni;
     cout << " | Yarıçap=" << s.yaricap << ", Yükseklik=" << s.yukseklik;
     cout << " | (Silindirik: r=" << silindirik.mesafe << ", açı=" << derece << " drc, z=" << silindirik.z_yukseklik << ")" << endl;
+
 }
 
 
@@ -550,8 +562,10 @@ int main() {
         cout << "----------------------------------------" << endl;
         cout << "Seçiminiz: ";
 
-        //Yanlış değerin girilip girilmediğinin kontrolü
+        // Yanlış girilişin kontrol edilmesi için kullanılacak değişken
         int anaSecim;
+
+        //Yanlış değerin girilip girilmediğinin kontrolü
         if (!(cin >> anaSecim)) 
         {
             
@@ -653,9 +667,9 @@ int main() {
         // 2 yazılmışsa çalışacak kodlar
         else if (anaSecim == 2) {
 
-            // **********************************************************
+            
             // KULLANICI TANIMLI TESTLER
-            // **********************************************************
+            
 
             cout << "\n----------------------------------------------------------------" << endl;
             cout << "(!) VERİ GİRİŞİ HAKKINDA BİLGİLENDİRME:" << endl;
@@ -931,6 +945,7 @@ int main() {
                     cout << "Geçersiz seçim!" << endl;
 
                 }
+
             }
 
             // Boyut seçimi ekranında farklı değer girilmişse çalışacak kodlar
